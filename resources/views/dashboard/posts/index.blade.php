@@ -3,7 +3,13 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">My Posts</h1>
 </div>
+@if (session()->has('success'))
+<div class="alert alert-success" role="alert">
+   {{ session('success') }}
+</div>
+@endif
 <div class="table-responsive">
+    <a href="/dashboard/posts/create" class="btn btn-primary mb-3">Add Post</a>
     <table class="table table-striped table-sm">
       <thead>
         <tr>
@@ -21,12 +27,16 @@
             <td>{{ $post -> category -> name}}</td>
             <td>
               <a href="/dashboard/posts/{{ $post -> slug }}" class="btn btn-info"><span data-feather="eye">Detail</span></a>
-              <a href="/dashboard/posts/{{ $post -> id }}" class="btn btn-warning"><span data-feather="eye">Edit</span></a>
-              <a href="/dashboard/posts/{{ $post -> id }}" class="btn btn-danger"><span data-feather="eye">Delete</span></a>
+              <a href="/dashboard/posts/{{ $post -> slug }}/edit" class="btn btn-warning"><span data-feather="eye">Edit</span></a>
+            <form action="/dashboard/posts/{{ $post -> slug }}" method="POST" class="d-inline">
+                @method('delete')
+                @csrf
+                <button class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+            </form>
             </td>
         </tr>
         @endforeach
       </tbody>
     </table>
   </div>
-@endsection
+@endsection --}}
